@@ -3,62 +3,65 @@ import { test, expect } from "@playwright/test";
 test.describe("[Demo App] Full Registration Smoke Suite", () => {
   const baseUrl = "https://anatoly-karpovich.github.io/demo-registration-form/";
 
-  test("should successfully fill and submit registration form", async ({ page }) => {
+  test("Full registration flow with valid data", async ({ page }) => {
+    // Navigate to registration page
     await page.goto(baseUrl);
 
     // Test data
     const timestamp = Date.now();
-    const firstName = "SmokeFirst";
-    const lastName = "SmokeLast";
-    const fullName = `${firstName} ${lastName}`;
-    const address = "123 Smoke St, Test City";
-    const email = `smoke${timestamp}@test.com`;
-    const phone = "1234567890";
-    const country = "USA";
-    const gender = "male";
-    const language = "English";
-    const skills = ["JavaScript", "Python"];
-    const hobbies = ["Travelling", "Gaming"];
-    const dob = "1 January 1990";
-    const password = "ValidPass123";
+    const testData = {
+      firstName: "SmokeFirst",
+      lastName: "SmokeLast",
+      fullName: "SmokeFirst SmokeLast",
+      address: "123 Smoke St, Test City",
+      email: `smoke${timestamp}@test.com`,
+      phone: "1234567890",
+      country: "USA",
+      gender: "male",
+      language: "English",
+      skills: ["JavaScript", "Python"],
+      hobbies: ["Travelling", "Gaming"],
+      dob: "1 January 1990",
+      password: "ValidPass123",
+    };
 
-    // Fill forms
-    await page.fill("#firstName", firstName);
-    await page.fill("#lastName", lastName);
-    await page.fill("#address", address);
-    await page.fill("#email", email);
-    await page.fill("#phone", phone);
-    await page.fill("#language", language);
-    await page.fill("#password", password);
-    await page.fill("#password-confirm", password);
+    // Fill registration form
+    await page.fill("#firstName", testData.firstName);
+    await page.fill("#lastName", testData.lastName);
+    await page.fill("#address", testData.address);
+    await page.fill("#email", testData.email);
+    await page.fill("#phone", testData.phone);
+    await page.fill("#language", testData.language);
+    await page.fill("#password", testData.password);
+    await page.fill("#password-confirm", testData.password);
 
-    await page.selectOption("#country", country);
-    await page.check(`input[name='gender'][value='${gender}']`);
-    for (const hobby of hobbies) {
+    await page.selectOption("#country", testData.country);
+    await page.check(`input[name='gender'][value='${testData.gender}']`);
+    for (const hobby of testData.hobbies) {
       await page.check(`input.hobby[value='${hobby}']`);
     }
-    await page.selectOption("#skills", skills);
+    await page.selectOption("#skills", testData.skills);
     await page.selectOption("#year", "1990");
     await page.selectOption("#month", "January");
     await page.selectOption("#day", "1");
 
-    // Submit
+    // Submit registration
     await page.click("button[type='submit']");
 
-    // Check all fields
+    // Verify registration result
     await expect(page.locator("h2")).toHaveText("Registration Details");
-    await expect(page.locator("#fullName")).toHaveText(fullName);
-    await expect(page.locator("#address")).toHaveText(address);
-    await expect(page.locator("#email")).toHaveText(email);
-    await expect(page.locator("#phone")).toHaveText(phone);
-    await expect(page.locator("#country")).toHaveText(country);
-    await expect(page.locator("#gender")).toHaveText(gender);
-    await expect(page.locator("#language")).toHaveText(language);
-    await expect(page.locator("#skills")).toHaveText(skills.join(", "));
-    await expect(page.locator("#hobbies")).toHaveText(hobbies.join(", "));
-    await expect(page.locator("#dateOfBirth")).toHaveText(dob);
+    await expect(page.locator("#fullName")).toHaveText(testData.fullName);
+    await expect(page.locator("#address")).toHaveText(testData.address);
+    await expect(page.locator("#email")).toHaveText(testData.email);
+    await expect(page.locator("#phone")).toHaveText(testData.phone);
+    await expect(page.locator("#country")).toHaveText(testData.country);
+    await expect(page.locator("#gender")).toHaveText(testData.gender);
+    await expect(page.locator("#language")).toHaveText(testData.language);
+    await expect(page.locator("#skills")).toHaveText(testData.skills.join(", "));
+    await expect(page.locator("#hobbies")).toHaveText(testData.hobbies.join(", "));
+    await expect(page.locator("#dateOfBirth")).toHaveText(testData.dob);
 
-    // Check back button
+    // Verify back button is visible
     await expect(page.locator("button", { hasText: "Back to Form" })).toBeVisible();
   });
 });

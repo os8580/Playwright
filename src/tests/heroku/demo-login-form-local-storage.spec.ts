@@ -1,13 +1,10 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("[Demo App] LOGIN WITH localStorage CREDS Suite", () => {
-  test("Register user in localStorage and login successfully", async ({ page }) => {
-    // Open the target page
-    await page.goto("https://anatoly-karpovich.github.io/demo-login-form/");
+  test("should register user in localStorage and login successfully", async ({ page }) => {
 
-    // Add a user object to localStorage in the format used by the app
-    // The key must be the username itself, and the value is a JSON string with "name" and "password" fields
-    await page.evaluate(() => {
+    // Inject user credentials into localStorage BEFORE page load
+    await page.context().addInitScript(() => {
       const user = {
         name: "test@gmail.com",
         password: "SecretPw123!@#"
@@ -15,23 +12,20 @@ test.describe("[Demo App] LOGIN WITH localStorage CREDS Suite", () => {
       localStorage.setItem(user.name, JSON.stringify(user));
     });
 
-    // Reload the page so that the app reads the new localStorage data
-    await page.reload();
+    // Navigate to the login form
+    await page.goto("https://anatoly-karpovich.github.io/demo-login-form/");
 
-    // Fill the login form with the same credentials we inserted into localStorage
+    // Fill in login credentials
     await page.fill("#userName", "test@gmail.com");
     await page.fill("#password", "SecretPw123!@#");
-
-    // Click the login button
     await page.click("#submit");
 
-    // Validate that login was successful
+    // Validate successful login
     const successMessage = page.locator("#successMessage");
     await expect(successMessage).toBeVisible();
-    await expect(successMessage).toContainText("Hello, test@gmail.com!");
+    await expect(successMessage).toHaveText("Hello, test@gmail.com!"); 
 
-    // Extra check: ensure the success form is visible
-    const successFormVisible = await page.locator(".successMessage").isVisible();
-    expect(successFormVisible).toBeTruthy();
+    // Optionally, verify that success block is visible
+    await expect(page.locator(".successMessage")).toBeVisible();
   });
 });

@@ -3,8 +3,8 @@
  * on the "Data Tables" page.
  */
 import { test, expect } from '@playwright/test';
-import { getTableRowByEmail } from '../../data/heroku/table-helper';
-import usersToTest from '../../data/heroku/table.data';
+import { getTableRowByEmail } from '../../../data/heroku/table-helper';
+import usersToTest from '../../../data/heroku/table.data';
 
 test.describe('[Demo Data Tables] Table 2 Data Verification', () => {
   // Common setup: navigate to the page before each test.

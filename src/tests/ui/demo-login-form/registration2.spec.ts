@@ -3,13 +3,13 @@
  */
 
 import test, { expect } from '@playwright/test';
-import userData from '../../data/demo-login-form/register.data';
+import userData from '../../../data/demo-login-form/register.data';
 
 test.describe('[Demo Login Form] Registration Negative Scenarios', () => {
   const url = 'https://anatoly-karpovich.github.io/demo-login-form/';
 
   // This loop creates a separate test for each entry in the userData array.
-  for (const { title, credentials, expectedMessage } of userData) {
+  for (const { title, credentials, successMessage } of userData) {
     test(title, async ({ page }) => {
       await page.goto(url);
 
@@ -31,7 +31,7 @@ test.describe('[Demo Login Form] Registration Negative Scenarios', () => {
       await registerButton.click();
 
       // Verify that the correct error message is displayed
-      await expect(errorMessageLabel).toHaveText(expectedMessage);
+      await expect(errorMessageLabel).toHaveText(successMessage);
     });
   }
 });

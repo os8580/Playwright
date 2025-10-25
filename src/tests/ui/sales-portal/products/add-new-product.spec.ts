@@ -113,10 +113,11 @@ test.describe("[Sales Portal] [Products]", async () => {
     await productsListPage.waitForOpened();
     await expect(productsListPage.toastMessage).toContainText(NOTIFICATIONS.PRODUCT_CREATED);
     await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
-    await expect(productsListPage.topRowName).toHaveText(productData.name);
-    await expect(productsListPage.topRowPrice).toHaveText(`$${productData.price}`);
-    await expect(productsListPage.topRowManufacturer).toHaveText(productData.manufacturer);
-    await expect(productsListPage.topRowCreatedOn).not.toHaveText("");
+
+    await expect(productsListPage.tableRowName(0)).toHaveText(productData.name);
+    await expect(productsListPage.tableRowPrice(0)).toHaveText(`$${productData.price}`);
+    await expect(productsListPage.tableRowManufacturer(0)).toHaveText(productData.manufacturer);
+    await expect(productsListPage.tableRowCreatedOn(0)).not.toHaveText("");
   });
 });
 

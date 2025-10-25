@@ -7,6 +7,7 @@ import { generateProductData } from "data/salesPortal/products/generateProductDa
 import { HomePage } from "ui/pages/home.page";
 import { AddNewProductPage } from "ui/pages/products/addNewProduct.page";
 import { ProductsListPage } from "ui/pages/products/productsList.page";
+import { LoginPage } from "ui/pages/login.page";
 
 // const productData: IProduct = {
 //   name: "Product" + Date.now(),
@@ -92,18 +93,14 @@ test.describe("[Sales Portal] [Products]", async () => {
     const homePage = new HomePage(page);
     const productsListPage = new ProductsListPage(page);
     const addNewProductPage = new AddNewProductPage(page);
-
-    //login page
-    const emailInput = page.locator("#emailinput");
-    const passwordInput = page.locator("#passwordinput");
-    const loginButton = page.locator("button[type='submit']");
+    const loginPage = new LoginPage(page);
 
     await homePage.open();
 
-    await expect(emailInput).toBeVisible();
-    await emailInput.fill(credentials.username);
-    await passwordInput.fill(credentials.password);
-    await loginButton.click();
+    await expect(loginPage.emailInput).toBeVisible();
+    await loginPage.emailInput.fill(credentials.username);
+    await loginPage.passwordInput.fill(credentials.password);
+    await loginPage.loginButton.click();
 
     await homePage.waitForOpened();
     await homePage.clickOnViewModule("Products");
@@ -116,6 +113,11 @@ test.describe("[Sales Portal] [Products]", async () => {
     await productsListPage.waitForOpened();
     await expect(productsListPage.toastMessage).toContainText(NOTIFICATIONS.PRODUCT_CREATED);
     await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
+
+    await expect(productsListPage.tableRowName(0)).toHaveText(productData.name);
+    await expect(productsListPage.tableRowPrice(0)).toHaveText(`$${productData.price}`);
+    await expect(productsListPage.tableRowManufacturer(0)).toHaveText(productData.manufacturer);
+    await expect(productsListPage.tableRowCreatedOn(0)).not.toHaveText("");
   });
 });
 

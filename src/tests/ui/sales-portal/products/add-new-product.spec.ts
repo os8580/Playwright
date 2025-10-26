@@ -1,13 +1,15 @@
-import test, { expect } from "@playwright/test";
+// import test, { expect } from "@playwright/test";
+import { test, expect } from "fixtures/pages.fixture";
 import { credentials } from "config/env";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
+import _ from "lodash";
 // import { MANUFACTURERS } from "data/salesPortal/products/manufacturers";
 // import { IProduct } from "data/types/product.types";
-import { HomePage } from "ui/pages/home.page";
-import { AddNewProductPage } from "ui/pages/products/addNewProduct.page";
-import { ProductsListPage } from "ui/pages/products/productsList.page";
-import { LoginPage } from "ui/pages/login.page";
+// import { HomePage } from "ui/pages/home.page";
+// import { AddNewProductPage } from "ui/pages/products/addNewProduct.page";
+// import { ProductsListPage } from "ui/pages/products/productsList.page";
+// import { LoginPage } from "ui/pages/login.page";
 
 // const productData: IProduct = {
 //   name: "Product" + Date.now(),
@@ -89,11 +91,11 @@ test.describe("[Sales Portal] [Products]", async () => {
     await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
   });
 
-  test("Add new product", async ({ page }) => {
-    const homePage = new HomePage(page);
-    const productsListPage = new ProductsListPage(page);
-    const addNewProductPage = new AddNewProductPage(page);
-    const loginPage = new LoginPage(page);
+  test("Add new product", async ({ homePage, productsListPage, addNewProductPage, loginPage }) => {
+    // const homePage = new HomePage(page);
+    // const productsListPage = new ProductsListPage(page);
+    // const addNewProductPage = new AddNewProductPage(page);
+    // const loginPage = new LoginPage(page);
 
     await homePage.open();
 
@@ -114,11 +116,15 @@ test.describe("[Sales Portal] [Products]", async () => {
     await expect(productsListPage.toastMessage).toContainText(NOTIFICATIONS.PRODUCT_CREATED);
     await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
 
-    const productInTable = await productsListPage.getProductData(productData.name);
-    expect(productInTable.name).toBe(productData.name);
-    expect(productInTable.price).toBe(productData.price);
-    expect(productInTable.manufacturer).toBe(productData.manufacturer);
-    expect(productInTable.createdOn).not.toBe("");
+    const productFromTable = await productsListPage.getProductData(productData.name);
+    // expect(productInTable.name).toBe(productData.name);
+    // expect(productInTable.price).toBe(productData.price);
+    // expect(productInTable.manufacturer).toBe(productData.manufacturer);
+    // expect(productInTable.createdOn).not.toBe("");
+    const expectedProduct = _.omit(productData, ["notes", "amount"]);
+    const actualProduct = _.omit(productFromTable, ["createdOn"]);
+    expect(actualProduct).toEqual(expectedProduct);
+    expect(productFromTable.createdOn).not.toBe("");
   });
 });
 

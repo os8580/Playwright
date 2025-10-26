@@ -1,5 +1,5 @@
 // import test, { expect } from "@playwright/test";
-import { test, expect } from "fixtures/business.fixture";
+import { test, expect } from "fixtures/pages.fixture";
 import { credentials } from "config/env";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
@@ -91,20 +91,20 @@ test.describe("[Sales Portal] [Products]", async () => {
     await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
   });
 
-  test("Add new product", async ({ loginAsAdmin, homePage, productsListPage, addNewProductPage, loginPage }) => {
+  test("Add new product", async ({ homePage, productsListPage, addNewProductPage, loginPage }) => {
     // const homePage = new HomePage(page);
     // const productsListPage = new ProductsListPage(page);
     // const addNewProductPage = new AddNewProductPage(page);
     // const loginPage = new LoginPage(page);
 
-    // await homePage.open();
-    // await expect(loginPage.emailInput).toBeVisible();
-    // await loginPage.emailInput.fill(credentials.username);
-    // await loginPage.passwordInput.fill(credentials.password);
-    // await loginPage.loginButton.click();
-    // await homePage.waitForOpened();
+    await homePage.open();
+    await expect(loginPage.emailInput).toBeVisible();
+    await loginPage.emailInput.fill(credentials.username);
+    await loginPage.passwordInput.fill(credentials.password);
+    await loginPage.loginButton.click();
+    await homePage.waitForOpened();
 
-    await loginAsAdmin();
+    // await loginAsAdmin();
     await homePage.clickOnViewModule("Products");
     await productsListPage.waitForOpened();
     await productsListPage.clickAddNewProduct();

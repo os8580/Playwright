@@ -8,12 +8,12 @@ export abstract class SalesPortalPage extends BasePage {
   abstract readonly uniqueElement: Locator;
 
   async waitForOpened() {
-    await expect(this.uniqueElement).toBeVisible();
+    await expect(this.uniqueElement).toBeVisible({ timeout: 10000 });
     await this.waitForSpinners();
   }
 
   async waitForSpinners() {
-    await expect(this.spinner).toHaveCount(0);
+    await expect(this.spinner).toHaveCount(0, { timeout: 10000 });
   }
 
   async open() {

@@ -2,9 +2,11 @@ import { IProductInTable, ProductsTableHeader } from "data/types/product.types";
 import { SalesPortalPage } from "../salesPortal.page";
 import { MANUFACTURERS } from "data/salesPortal/products/manufacturers";
 import { ProductDetailsModal } from "./details.modal";
+import { DeleteProductModal } from "./delete.modal";
 
 export class ProductsListPage extends SalesPortalPage {
   readonly detailsModal = new ProductDetailsModal(this.page);
+  readonly deleteModal = new DeleteProductModal(this.page);
 
   readonly productsPageTitle = this.page.locator("h2.fw-bold");
   readonly addNewProductButton = this.page.locator('[name="add-button"]');
@@ -37,6 +39,10 @@ export class ProductsListPage extends SalesPortalPage {
 
   async clickAddNewProduct() {
     await this.addNewProductButton.click();
+  }
+
+  async clickDeleteProduct(productName: string) {
+    await this.deleteButton(productName).click();
   }
 
   async getProductData(productName: string): Promise<IProductInTable> {

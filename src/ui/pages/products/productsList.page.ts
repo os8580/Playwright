@@ -33,7 +33,7 @@ export class ProductsListPage extends SalesPortalPage {
     await this.addNewProductButton.click();
   }
 
-  async deleteProduct(productName: string) {
+  async clickDeleteProduct(productName: string) {
     await this.deleteButton(productName).click();
   }
 

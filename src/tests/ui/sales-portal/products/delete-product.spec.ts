@@ -29,7 +29,7 @@ test.describe("[Sales Portal] [Products] [Deletion]", () => {
     const productRow = productsListPage.tableRowByName(productData.name);
     await expect(productRow).toBeVisible();
 
-    await productsListPage.deleteProduct(productData.name);
+    await productsListPage.clickDeleteProduct(productData.name);
 
     const deleteModal = productsListPage.deleteModal;
     await deleteModal.waitForOpened();

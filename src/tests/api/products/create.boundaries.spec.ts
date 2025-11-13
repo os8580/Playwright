@@ -5,6 +5,7 @@ import { STATUS_CODES } from "data/statusCodes";
 import _ from "lodash";
 import { validateResponse } from "utils/validation/validateResponse.utils";
 import { MANUFACTURERS } from "data/salesPortal/products/manufacturers";
+import { generateUniqueProductName } from "utils/product.utils";
 
 test.describe("[API] [Sales Portal] [Products]", () => {
   test.describe("Create Product", () => {
@@ -24,11 +25,9 @@ test.describe("[API] [Sales Portal] [Products]", () => {
       }
     });
 
-    const makeName = (base: string) => `${base} ${Date.now().toString().slice(-4)}`.slice(0, 40);
-
     test("Should create product with min valid data", async ({ productsApi }) => {
       const productData = generateProductData({
-        name: makeName("a1"),
+        name: generateUniqueProductName("a1"),
         amount: 0,
         price: 1,
         manufacturer: MANUFACTURERS.SONY,
@@ -50,7 +49,7 @@ test.describe("[API] [Sales Portal] [Products]", () => {
 
     test("Should create product with max valid data", async ({ productsApi }) => {
       const productData = generateProductData({
-        name: makeName("MaxName"),
+        name: generateUniqueProductName("MaxName"),
         amount: 999,
         price: 99999,
         manufacturer: MANUFACTURERS.SONY,
@@ -72,7 +71,7 @@ test.describe("[API] [Sales Portal] [Products]", () => {
 
     test("Should create product with name containing single space", async ({ productsApi }) => {
       const productData = generateProductData({
-        name: makeName("Token One"),
+        name: generateUniqueProductName("Token One"),
       });
 
       const response = await productsApi.create(productData, token);

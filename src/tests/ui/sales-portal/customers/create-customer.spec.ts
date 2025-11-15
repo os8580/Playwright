@@ -15,7 +15,7 @@ test.describe("[Sales Portal] [Customers]", () => {
     createdCustomerId = "";
   });
 
-  test("Create customer with API login", async ({ page, customersApi, customersListPage, addNewCustomerPage }) => {
+  test("Create customer with API login", async ({ page, customersApi, customersListUIService, addNewCustomerPage }) => {
     const url = new URL(SALES_PORTAL_URL);
     await page.context().addCookies([
       {
@@ -29,19 +29,17 @@ test.describe("[Sales Portal] [Customers]", () => {
       },
     ]);
 
-    await customersListPage.open("customers");
-    await customersListPage.waitForOpened();
-    await customersListPage.clickAddNewCustomer();
+    await customersListUIService.open();
+    await customersListUIService.openAddNewCustomerPage();
     await addNewCustomerPage.waitForOpened();
 
     const data = generateCustomerData();
     await addNewCustomerPage.fillForm(data);
     await addNewCustomerPage.clickSave();
 
-    await customersListPage.waitForOpened();
-    await expect(customersListPage.tableRowByEmail(data.email)).toBeVisible();
+    await customersListUIService.customersListPage.waitForOpened();
+    await customersListUIService.assertCustomerInTable(data.email, { visible: true });
 
-    // Cleanup via API: find by search and delete by id
     const resp = await customersApi.getSorted(token, { search: data.email });
     expect(resp.body.Customers.length).toBeGreaterThan(0);
     const found = resp.body.Customers.find((c) => c.email === data.email);

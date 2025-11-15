@@ -1,7 +1,9 @@
 import { CustomersTableHeader, ICustomerInTable } from "data/types/customer.types";
 import { SalesPortalPage } from "../salesPortal.page";
+import { ConfirmationModal } from "../confirmation.modal";
 
 export class CustomersListPage extends SalesPortalPage {
+  readonly deleteModal = new ConfirmationModal(this.page);
   readonly pageTitle = this.page.locator("h2.fw-bold, h2.page-title-text");
   readonly addNewCustomerButton = this.page.locator('[name="add-button"]');
   readonly tableRow = this.page.locator("tbody tr");

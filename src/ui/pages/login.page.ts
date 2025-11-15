@@ -7,7 +7,7 @@ export class LoginPage extends SalesPortalPage {
   readonly passwordInput = this.page.locator("#passwordinput");
   readonly loginButton = this.page.locator('button[type="submit"]');
 
-  readonly uniqueElement: Locator = this.loginButton;
+  readonly uniqueElement = this.page.locator("#signInPage");
 
   async fillCredentials(credentials: Partial<ICredentials>) {
     if (credentials.username) await this.emailInput.fill(credentials.username);

@@ -4,12 +4,13 @@ import { credentials } from "config/env";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
 import { getAllProductsSchema } from "data/schemas/products/getAll.schema";
 import { STATUS_CODES } from "data/statusCodes";
+import { TAGS } from "data/tags";
 import { validateResponse } from "utils/validateResponse.utils";
 import _ from "lodash";
 
 const { baseURL, endpoints } = apiConfig;
 
-test.describe("[API] [Sales Portal] [Products]", () => {
+test.describe("[API] [Sales Portal] [Products]", { tag: [TAGS.PRODUCTS, TAGS.API, TAGS.REGRESSION] }, () => {
   let token = "";
   let createdProduct: Record<string, any> = {};
   let productId = "";

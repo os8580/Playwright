@@ -1,5 +1,6 @@
 import { test, expect } from "fixtures/business.fixture";
 import { generateProductResponseData } from "data/salesPortal/products/generateProductData";
+import { TAGS } from "data/tags";
 import { SALES_PORTAL_URL } from "config/env";
 import { apiConfig } from "config/apiConfig";
 import { ProductsSortField, ProductsTableHeader } from "data/types/product.types";
@@ -7,7 +8,7 @@ import { SortOrder } from "data/types/core.types";
 import _ from "lodash";
 import { convertToDateAndTime } from "utils/date.utils";
 
-test.describe("[Integration] [Sales Portal] [Products] [Table Sorting]", () => {
+test.describe("[Integration] [Sales Portal] [Products] [Table Sorting]", { tag: [TAGS.PRODUCTS, TAGS.UI, TAGS.REGRESSION] }, () => {
   // test("Field: createdOn, direction: asc", async ({ loginAsAdmin, productsListPage, page, mock }) => {
   //   const product1 = generateProductResponseData();
   //   const product2 = generateProductResponseData();

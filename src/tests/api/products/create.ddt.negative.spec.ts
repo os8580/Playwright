@@ -2,13 +2,14 @@ import { test, expect } from "fixtures/api.fixture";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
 import { STATUS_CODES } from "data/statusCodes";
 import { validateResponse } from "utils/validation/validateResponse.utils";
+import { TAGS } from "data/tags";
 import { ERROR_MESSAGES } from "data/salesPortal/notifications";
 import { IProduct } from "data/types/product.types";
 import { validationErrorSchema } from "data/schemas/products/validation-error.schema";
 import { productValidationCases } from "data/salesPortal/products/create-validation.data";
 
 test.describe("[API] [Sales Portal] [Products]", () => {
-  test.describe("Create Product Validation", () => {
+  test.describe("Create Product Validation", { tag: [TAGS.PRODUCTS, TAGS.API, TAGS.REGRESSION] }, () => {
     const ids: string[] = [];
     let token = "";
 

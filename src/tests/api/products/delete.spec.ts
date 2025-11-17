@@ -1,7 +1,8 @@
 import { test, expect } from "fixtures/api.fixture";
 import { STATUS_CODES } from "data/statusCodes";
+import { TAGS } from "data/tags";
 
-test.describe("[API] [Sales Portal] [Products]", () => {
+test.describe("[API] [Sales Portal] [Products]", { tag: [TAGS.PRODUCTS, TAGS.API, TAGS.SMOKE] }, () => {
   test("Delete Product", async ({ loginApiService, productsApiService, productsApi }) => {
     //arrange
     const token = await loginApiService.loginAsAdmin();

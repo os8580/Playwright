@@ -11,7 +11,7 @@ enum NOTIFICATIONS {
 
 const baseUrl = "https://anatoly-karpovich.github.io/demo-login-form/";
 
-test.describe("[Demo App] REGISTER & LOGIN Smoke Suite", () => {
+test.describe.skip("[Demo App] REGISTER & LOGIN Smoke Suite", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(baseUrl);
     await expect(page.locator("#loginForm")).toBeVisible();

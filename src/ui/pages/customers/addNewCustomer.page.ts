@@ -1,5 +1,7 @@
+import { expect } from "@playwright/test";
 import { ICustomer } from "data/types/customer.types";
 import { SalesPortalPage } from "../salesPortal.page";
+import { logStep } from "utils/report/logStep.utils";
 
 export class AddNewCustomerPage extends SalesPortalPage {
   readonly title = this.page.locator("h2.page-title-text");
@@ -16,6 +18,7 @@ export class AddNewCustomerPage extends SalesPortalPage {
 
   readonly uniqueElement = this.title;
 
+  @logStep("Fill customer form")
   async fillForm(customer: Partial<ICustomer>) {
     if (customer.email) await this.emailInput.fill(customer.email);
     if (customer.name) await this.nameInput.fill(customer.name);
@@ -28,7 +31,9 @@ export class AddNewCustomerPage extends SalesPortalPage {
     if (customer.notes !== undefined) await this.notesInput.fill(customer.notes);
   }
 
+  @logStep("Click Save button")
   async clickSave() {
+    await expect(this.saveButton).toBeEnabled({ timeout: 25000 });
     await this.saveButton.click();
   }
 }

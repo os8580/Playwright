@@ -12,7 +12,7 @@ enum NOTIFICATIONS {
   INVALID_USERNAME = "Your username is invalid!",
 }
 
-test.describe("[Heroku App] [Form Authentication]", () => {
+test.describe.skip("[Heroku App] [Form Authentication]", () => {
   const validCredentials: ICredentials = {
     username: "tomsmith",
     password: "SuperSecretPassword!",

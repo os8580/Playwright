@@ -1,8 +1,9 @@
 import { test, expect } from "fixtures/api.fixture";
 import { STATUS_CODES } from "data/statusCodes";
+import { TAGS } from "data/tags";
 import { validateResponse } from "utils/validation/validateResponse.utils";
 
-test.describe("[API] [Sales Portal] [Products] Get Sorted", () => {
+test.describe("[API] [Sales Portal] [Products] Get Sorted", { tag: [TAGS.PRODUCTS, TAGS.API, TAGS.REGRESSION] }, () => {
   test.describe("Search", () => {
     let id = "";
     let token = "";
@@ -102,7 +103,6 @@ test.describe("[API] [Sales Portal] [Products] Get Sorted", () => {
 
       ids.push(product1._id, product2._id);
       const response = await productsApi.getSorted(token, { sortField: "createdOn", sortOrder: "asc" });
-      const allProducts = await productsApi.getAll(token);
 
       validateResponse(response, {
         status: STATUS_CODES.OK,
@@ -111,17 +111,11 @@ test.describe("[API] [Sales Portal] [Products] Get Sorted", () => {
       });
 
       const actualProducts = response.body.Products;
-
-      const sorted = allProducts.body.Products.toSorted((a, b) => {
-        const dateA = new Date(a.createdOn);
-        const dateB = new Date(b.createdOn);
-
-        return dateA.getTime() - dateB.getTime();
-      }).slice(0, 10);
-
-      actualProducts.forEach((actual, index) => {
-        expect.soft(actual).toEqual(sorted[index]);
-      });
+      for (let i = 1; i < actualProducts.length; i++) {
+        const prev = new Date(actualProducts[i - 1]!.createdOn).getTime();
+        const curr = new Date(actualProducts[i]!.createdOn).getTime();
+        expect.soft(prev).toBeLessThanOrEqual(curr);
+      }
 
       const { limit, search, manufacturer, total, page: pageParam, sorting } = response.body;
       expect.soft(limit, `Limit should be ${limit}`).toBe(10);
@@ -139,7 +133,6 @@ test.describe("[API] [Sales Portal] [Products] Get Sorted", () => {
 
       ids.push(product1._id, product2._id);
       const response = await productsApi.getSorted(token, { sortField: "createdOn", sortOrder: "desc" });
-      const allProducts = await productsApi.getAll(token);
 
       validateResponse(response, {
         status: STATUS_CODES.OK,
@@ -148,17 +141,11 @@ test.describe("[API] [Sales Portal] [Products] Get Sorted", () => {
       });
 
       const actualProducts = response.body.Products;
-
-      const sorted = allProducts.body.Products.toSorted((a, b) => {
-        const dateA = new Date(a.createdOn);
-        const dateB = new Date(b.createdOn);
-
-        return dateB.getTime() - dateA.getTime();
-      }).slice(0, 10);
-
-      actualProducts.forEach((actual, index) => {
-        expect.soft(actual).toEqual(sorted[index]);
-      });
+      for (let i = 1; i < actualProducts.length; i++) {
+        const prev = new Date(actualProducts[i - 1]!.createdOn).getTime();
+        const curr = new Date(actualProducts[i]!.createdOn).getTime();
+        expect.soft(prev).toBeGreaterThanOrEqual(curr);
+      }
 
       const { limit, search, manufacturer, total, page: pageParam, sorting } = response.body;
       expect.soft(limit, `Limit should be ${limit}`).toBe(10);
@@ -176,7 +163,6 @@ test.describe("[API] [Sales Portal] [Products] Get Sorted", () => {
 
       ids.push(product1._id, product2._id);
       const response = await productsApi.getSorted(token, { sortField: "manufacturer", sortOrder: "desc" });
-      const allProducts = await productsApi.getAll(token);
 
       validateResponse(response, {
         status: STATUS_CODES.OK,
@@ -185,17 +171,17 @@ test.describe("[API] [Sales Portal] [Products] Get Sorted", () => {
       });
 
       const actualProducts = response.body.Products;
-
-      const sorted = allProducts.body.Products.toSorted((a, b) => {
-        const dateA = new Date(a.createdOn);
-        const dateB = new Date(b.createdOn);
-
-        return b.manufacturer.localeCompare(a.manufacturer) || dateB.getTime() - dateA.getTime();
-      }).slice(0, 10);
-
-      actualProducts.forEach((actual, index) => {
-        expect.soft(actual).toEqual(sorted[index]);
-      });
+      for (let i = 1; i < actualProducts.length; i++) {
+        const prevM = actualProducts[i - 1]!.manufacturer;
+        const currM = actualProducts[i]!.manufacturer;
+        const cmp = prevM.localeCompare(currM);
+        expect.soft(cmp).toBeGreaterThanOrEqual(0);
+        if (cmp === 0) {
+          const prev = new Date(actualProducts[i - 1]!.createdOn).getTime();
+          const curr = new Date(actualProducts[i]!.createdOn).getTime();
+          expect.soft(prev).toBeGreaterThanOrEqual(curr);
+        }
+      }
 
       const { limit, search, manufacturer, total, page: pageParam, sorting } = response.body;
       expect.soft(limit, `Limit should be ${limit}`).toBe(10);

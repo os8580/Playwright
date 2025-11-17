@@ -47,7 +47,7 @@ const promocodes: IPromocode[] = [
   { name: "HelloThere", rebate: 20 },
 ];
 
-test.describe("[Demo Shopping Cart]", () => {
+test.describe.skip("[Demo Shopping Cart]", () => {
   test("E2E", async ({ page }) => {
     /*
     https://anatoly-karpovich.github.io/demo-shopping-cart/

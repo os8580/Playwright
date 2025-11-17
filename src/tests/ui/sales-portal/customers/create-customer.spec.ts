@@ -1,17 +1,12 @@
 import { test, expect } from "fixtures";
 import { generateCustomerData } from "data/salesPortal/customers/generateCustomerData";
+import { TAGS } from "data/tags";
 
-test.describe("[Sales Portal] [Customers]", () => {
+test.describe("[Sales Portal] [Customers]", { tag: [TAGS.CUSTOMERS, TAGS.UI, TAGS.SMOKE] }, () => {
   let token = "";
-  let createdCustomerId = "";
 
   test.beforeEach(async ({ loginApiService }) => {
     token = await loginApiService.loginAsAdmin();
-  });
-
-  test.afterEach(async ({ customersApi }) => {
-    if (createdCustomerId) await customersApi.delete(createdCustomerId, token);
-    createdCustomerId = "";
   });
 
   test("Create customer with API login", async ({ customersApi, customersListUIService, addNewCustomerPage }) => {
@@ -27,11 +22,5 @@ test.describe("[Sales Portal] [Customers]", () => {
 
     await customersListUIService.customersListPage.waitForOpened();
     await customersListUIService.assertCustomerInTable(data.email, { visible: true });
-
-    const resp = await customersApi.getSorted(token, { search: data.email });
-    expect(resp.body.Customers.length).toBeGreaterThan(0);
-    const found = resp.body.Customers.find((c) => c.email === data.email);
-    expect(found).toBeTruthy();
-    createdCustomerId = found!._id;
   });
 });

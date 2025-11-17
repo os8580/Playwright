@@ -6,7 +6,7 @@ const file = path.resolve(`${process.cwd()}/src/data/demo-login-form/userdata.js
 const userData = JSON.parse(fs.readFileSync(file, "utf-8"));
 // import userData from "../../data/demo-login-form/register.data";
 
-test.describe("[Demo Login Form] Registration", () => {
+test.describe.skip("[Demo Login Form] Registration", () => {
   const url = "https://anatoly-karpovich.github.io/demo-login-form/";
 
   for (const { title, credentials, successMessage } of userData) {

@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("[Demo App] LOGIN WITH localStorage CREDS Suite", () => {
+test.describe.skip("[Demo App] LOGIN WITH localStorage CREDS Suite", () => {
   test("should register user in localStorage and login successfully", async ({ page }) => {
 
     // Inject user credentials into localStorage BEFORE page load

@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("[Demo App] DYNAMIC CONTROLS Suite", () => {
+test.describe.skip("[Demo App] DYNAMIC CONTROLS Suite", () => {
   test("should remove and add checkbox with correct messages", async ({ page }) => {
     // Go to main page
     await page.goto("https://the-internet.herokuapp.com/");

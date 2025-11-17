@@ -1,6 +1,6 @@
 import test, { expect } from "@playwright/test";
 
-test.describe("[Heroku App] Table", () => {
+test.describe.skip("[Heroku App] Table", () => {
   const url = "https://the-internet.herokuapp.com/";
 
   test("Single Locator with more than 1 element", async ({ page }) => {

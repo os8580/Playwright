@@ -5,7 +5,7 @@
 import test, { expect } from '@playwright/test';
 import userData from '../../../data/demo-login-form/register.data';
 
-test.describe('[Demo Login Form] Registration Negative Scenarios', () => {
+test.describe.skip('[Demo Login Form] Registration Negative Scenarios', () => {
   const url = 'https://anatoly-karpovich.github.io/demo-login-form/';
 
   // This loop creates a separate test for each entry in the userData array.

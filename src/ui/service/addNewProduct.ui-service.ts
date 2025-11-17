@@ -7,6 +7,7 @@ import _ from "lodash";
 import { AddNewProductPage, ProductsListPage } from "ui/pages/products";
 import { BaseService } from "./base.service";
 import { SalesPortalRoutes } from "data/types/routes.types";
+import { logStep } from "utils/report/logStep.utils";
 
 export class AddNewProductUIService extends BaseService {
   addNewProductPage: AddNewProductPage;
@@ -18,11 +19,13 @@ export class AddNewProductUIService extends BaseService {
     this.productsListPage = new ProductsListPage(this.page);
   }
 
+  @logStep("Open Add New Product page")
   async open() {
     await this.addNewProductPage.open(SalesPortalRoutes.PRODUCTS_ADD);
     await this.addNewProductPage.waitForOpened();
   }
 
+  @logStep("Create new product")
   async create(productData?: Partial<IProduct>) {
     const data = generateProductData(productData);
     await this.addNewProductPage.fillForm(data);

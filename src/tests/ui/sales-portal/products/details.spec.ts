@@ -1,9 +1,10 @@
 import { test, expect } from "fixtures/business.fixture";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
+import { TAGS } from "data/tags";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
 import _ from "lodash";
 
-test.describe("[Sales Portal] [Products]", () => {
+test.describe("[Sales Portal] [Products]", { tag: [TAGS.PRODUCTS, TAGS.UI, TAGS.SMOKE] }, () => {
   let id = "";
   let token = "";
   //test with fixtures version 1

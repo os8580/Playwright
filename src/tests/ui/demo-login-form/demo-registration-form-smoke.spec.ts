@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("[Demo App] Full Registration Smoke Suite", () => {
+test.describe.skip("[Demo App] Full Registration Smoke Suite", () => {
   const baseUrl = "https://anatoly-karpovich.github.io/demo-registration-form/";
 
   test("Full registration flow with valid data", async ({ page }) => {

@@ -1,8 +1,9 @@
 import { test, expect } from "fixtures/business.fixture";
 import { buildMetricsResponse } from "data/salesPortal/metrics/generateMetricsResponse";
+import { TAGS } from "data/tags";
 import { formatMoneyShort } from "utils/number.utils";
 
-test.describe("[Integration] [Sales Portal] [Home] [Metrics]", () => {
+test.describe("[Integration] [Sales Portal] [Home] [Metrics]", { tag: [TAGS.UI, TAGS.REGRESSION] }, () => {
   test("Orders This Year", async ({ loginAsAdmin, homePage, mock }) => {
     const value = 123;
     await mock.metrics(buildMetricsResponse({ orders: { totalOrders: value } }));

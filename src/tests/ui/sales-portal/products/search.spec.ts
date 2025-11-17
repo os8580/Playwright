@@ -1,7 +1,8 @@
 import { IProduct } from "data/types/product.types";
 import { expect, test } from "fixtures/business.fixture";
+import { TAGS } from "data/tags";
 
-test.describe("[Sales Portal] [Products]", () => {
+test.describe("[Sales Portal] [Products]", { tag: [TAGS.PRODUCTS, TAGS.UI, TAGS.SMOKE] }, () => {
   let id = "";
   let token = "";
 

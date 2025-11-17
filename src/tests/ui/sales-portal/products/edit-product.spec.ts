@@ -2,7 +2,6 @@ import { test, expect } from "fixtures";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
 import { IProductDetails } from "data/types/product.types";
 import { ProductFormPage } from "ui/pages/products/productForm.page";
-import { SALES_PORTAL_URL } from "config/env";
 
 test.describe("[Sales Portal] [Products]", () => {
   let token = "";
@@ -17,28 +16,11 @@ test.describe("[Sales Portal] [Products]", () => {
     id = "";
   });
 
-  test("Edit product with API login", async ({
-    page,
-    productsApiService,
-    productsListUIService,
-    productsListPage,
-  }) => {
-    const url = new URL(SALES_PORTAL_URL);
-    await page.context().addCookies([
-      {
-        name: "Authorization",
-        value: token,
-        domain: url.hostname,
-        path: "/",
-        httpOnly: false,
-        secure: false,
-        sameSite: "Lax",
-      },
-    ]);
-
+  test("Edit product with API login", async ({ page, productsApiService, productsListUIService, productsListPage }) => {
     const created = await productsApiService.create(token);
     id = created._id;
 
+    await productsListPage.setAuthCookie(token);
     await productsListUIService.open();
 
     await productsListPage.editButton(created.name).click();

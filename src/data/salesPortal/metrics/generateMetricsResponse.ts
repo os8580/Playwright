@@ -1,39 +1,26 @@
-import { IMetricsData, IMetricsResponse } from "data/types/metrics.types";
+import type { IMetricsResponse, MetricsOverrides } from "data/types/metrics.types";
 
-export type OrdersOverrides = Partial<
-  Pick<IMetricsData["orders"], "totalRevenue" | "totalOrders" | "averageOrderValue" | "totalCanceledOrders">
->;
-export type CustomersOverrides = Partial<Pick<IMetricsData["customers"], "totalNewCustomers">>;
-export type ProductsOverrides = Record<string, never>;
-
-export type MetricsOverrides = { orders?: OrdersOverrides; customers?: CustomersOverrides; products?: ProductsOverrides };
-
-export function buildMetricsResponse(overrides?: MetricsOverrides): IMetricsResponse {
-  const base: IMetricsData = {
-    orders: {
-      totalRevenue: 0,
-      totalOrders: 0,
-      averageOrderValue: 0,
-      totalCanceledOrders: 0,
-      recentOrders: [],
-      ordersCountPerDay: [],
+export const buildMetricsResponse = (overrides?: MetricsOverrides): IMetricsResponse => {
+  return {
+    IsSuccess: true,
+    Metrics: {
+      orders: {
+        totalRevenue: overrides?.orders?.totalRevenue ?? 100000,
+        totalOrders: overrides?.orders?.totalOrders ?? 200,
+        averageOrderValue: overrides?.orders?.averageOrderValue ?? 500,
+        totalCanceledOrders: overrides?.orders?.totalCanceledOrders ?? 15,
+        recentOrders: [],
+        ordersCountPerDay: [],
+      },
+      customers: {
+        totalNewCustomers: overrides?.customers?.totalNewCustomers ?? 50,
+        topCustomers: [],
+        customerGrowth: [],
+      },
+      products: {
+        topProducts: [],
+      },
     },
-    customers: {
-      totalNewCustomers: 0,
-      topCustomers: [],
-      customerGrowth: [],
-    },
-    products: {
-      topProducts: [],
-    },
+    ErrorMessage: null,
   };
-
-  const merged: IMetricsData = {
-    ...base,
-    orders: { ...base.orders, ...(overrides?.orders || {}) },
-    customers: { ...base.customers, ...(overrides?.customers || {}) },
-    products: base.products,
-  };
-
-  return { IsSuccess: true, Metrics: merged, ErrorMessage: null };
-}
+};

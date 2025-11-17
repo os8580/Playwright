@@ -1,5 +1,6 @@
 import { Locator } from "@playwright/test";
 import { SalesPortalPage } from "./salesPortal.page";
+import { SalesPortalRoutes } from "data/types/routes.types";
 
 export type HomeModuleButton = "Products" | "Customers" | "Orders";
 
@@ -14,6 +15,10 @@ export class HomePage extends SalesPortalPage {
   readonly avgOrderValue = this.page.locator("#avg-orders-value-container .card-text");
   readonly canceledOrdersValue = this.page.locator("#canceled-orders-container .card-text");
   readonly uniqueElement = this.welcomeText;
+
+  async open() {
+    await super.open(SalesPortalRoutes.HOME);
+  }
 
   async clickOnViewModule(module: HomeModuleButton) {
     const moduleButtons: Record<HomeModuleButton, Locator> = {

@@ -1,5 +1,4 @@
 import { test, expect } from "fixtures";
-import { SALES_PORTAL_URL } from "config/env";
 import { generateCustomerData } from "data/salesPortal/customers/generateCustomerData";
 
 test.describe("[Sales Portal] [Customers]", () => {
@@ -15,19 +14,8 @@ test.describe("[Sales Portal] [Customers]", () => {
     createdCustomerId = "";
   });
 
-  test("Create customer with API login", async ({ page, customersApi, customersListUIService, addNewCustomerPage }) => {
-    const url = new URL(SALES_PORTAL_URL);
-    await page.context().addCookies([
-      {
-        name: "Authorization",
-        value: token,
-        domain: url.hostname,
-        path: "/",
-        httpOnly: false,
-        secure: false,
-        sameSite: "Lax",
-      },
-    ]);
+  test("Create customer with API login", async ({ customersApi, customersListUIService, addNewCustomerPage }) => {
+    await addNewCustomerPage.setAuthCookie(token);
 
     await customersListUIService.open();
     await customersListUIService.openAddNewCustomerPage();

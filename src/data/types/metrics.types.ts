@@ -64,3 +64,15 @@ export interface IMetricsResponse {
   Metrics: IMetricsData;
   ErrorMessage: string | null;
 }
+
+export type OrdersOverrides = Partial<
+  Pick<IMetricsData["orders"], "totalRevenue" | "totalOrders" | "averageOrderValue" | "totalCanceledOrders">
+>;
+export type CustomersOverrides = Partial<Pick<IMetricsData["customers"], "totalNewCustomers">>;
+export type ProductsOverrides = Record<string, never>;
+
+export type MetricsOverrides = {
+  orders?: OrdersOverrides;
+  customers?: CustomersOverrides;
+  products?: ProductsOverrides;
+};

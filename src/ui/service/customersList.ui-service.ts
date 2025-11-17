@@ -1,18 +1,21 @@
 import { expect, Page } from "@playwright/test";
 import { AddNewCustomerPage } from "ui/pages/customers/addNewCustomer.page";
 import { CustomersListPage } from "ui/pages/customers/customersList.page";
+import { BaseService } from "./base.service";
+import { SalesPortalRoutes } from "data/types/routes.types";
 
-export class CustomersListUIService {
+export class CustomersListUIService extends BaseService {
   customersListPage: CustomersListPage;
   addNewCustomerPage: AddNewCustomerPage;
 
-  constructor(private page: Page) {
-    this.customersListPage = new CustomersListPage(page);
-    this.addNewCustomerPage = new AddNewCustomerPage(page);
+  constructor(page: Page) {
+    super(page);
+    this.customersListPage = new CustomersListPage(this.page);
+    this.addNewCustomerPage = new AddNewCustomerPage(this.page);
   }
 
   async open() {
-    await this.customersListPage.open("customers");
+    await this.customersListPage.open(SalesPortalRoutes.CUSTOMERS);
     await this.customersListPage.waitForOpened();
   }
 

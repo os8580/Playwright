@@ -27,10 +27,10 @@ export class CustomersApi {
     return await this.apiClient.send<ICustomerResponse>(options);
   }
 
-  async getById(_id: string, token: string) {
+  async getById(id: string, token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseURL,
-      url: apiConfig.endpoints.customerById(_id),
+      url: apiConfig.endpoints.customerById(id),
       method: "get",
       headers: {
         "content-type": "application/json",
@@ -66,10 +66,10 @@ export class CustomersApi {
     return await this.apiClient.send<ICustomersSortedResponse>(options);
   }
 
-  async delete(_id: string, token: string) {
+  async delete(id: string, token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseURL,
-      url: apiConfig.endpoints.customerById(_id),
+      url: apiConfig.endpoints.customerById(id),
       method: "delete",
       headers: {
         "content-type": "application/json",

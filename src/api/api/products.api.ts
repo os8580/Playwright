@@ -33,10 +33,10 @@ export class ProductsApi {
     return await this.apiClient.send<IProductResponse>(options);
   }
 
-  async update(_id: string, newProduct: IProduct, token: string) {
+  async update(id: string, newProduct: IProduct, token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseURL,
-      url: apiConfig.endpoints.productById(_id),
+      url: apiConfig.endpoints.productById(id),
       method: "put",
       headers: {
         "content-type": "application/json",
@@ -48,10 +48,10 @@ export class ProductsApi {
     return await this.apiClient.send<IProductResponse>(options);
   }
 
-  async getById(_id: string, token: string) {
+  async getById(id: string, token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseURL,
-      url: apiConfig.endpoints.productById(_id),
+      url: apiConfig.endpoints.productById(id),
       method: "get",
       headers: {
         "content-type": "application/json",
@@ -90,10 +90,10 @@ export class ProductsApi {
     return await this.apiClient.send<IProductsSortedResponse>(options);
   }
 
-  async delete(_id: string, token: string) {
+  async delete(id: string, token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseURL,
-      url: apiConfig.endpoints.productById(_id),
+      url: apiConfig.endpoints.productById(id),
       method: "delete",
       headers: {
         "content-type": "application/json",

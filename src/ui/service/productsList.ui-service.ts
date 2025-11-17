@@ -4,14 +4,17 @@ import _ from "lodash";
 import { AddNewProductPage } from "ui/pages/products/addNewProduct.page";
 import { ProductsListPage } from "ui/pages/products/productsList.page";
 import { convertToFullDateAndTime } from "utils/date.utils";
+import { BaseService } from "./base.service";
+import { SalesPortalRoutes } from "data/types/routes.types";
 
-export class ProductsListUIService {
+export class ProductsListUIService extends BaseService {
   productsListPage: ProductsListPage;
   addNewProductPage: AddNewProductPage;
 
-  constructor(private page: Page) {
-    this.productsListPage = new ProductsListPage(page);
-    this.addNewProductPage = new AddNewProductPage(page);
+  constructor(page: Page) {
+    super(page);
+    this.productsListPage = new ProductsListPage(this.page);
+    this.addNewProductPage = new AddNewProductPage(this.page);
   }
 
   async openAddNewProductPage() {
@@ -43,7 +46,7 @@ export class ProductsListUIService {
   }
 
   async open() {
-    await this.productsListPage.open("products");
+    await this.productsListPage.open(SalesPortalRoutes.PRODUCTS);
     await this.productsListPage.waitForOpened();
   }
 

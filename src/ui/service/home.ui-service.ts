@@ -2,15 +2,18 @@ import { Page } from "@playwright/test";
 import { HomeModuleButton, HomePage } from "ui/pages/home.page";
 import { ProductsListPage } from "ui/pages/products/productsList.page";
 import { CustomersListPage } from "ui/pages/customers/customersList.page";
+import { BaseService } from "./base.service";
 
-export class HomeUIService {
+export class HomeUIService extends BaseService {
   homePage: HomePage;
   productsListPage: ProductsListPage;
   customersListPage: CustomersListPage;
-  constructor(private page: Page) {
-    this.homePage = new HomePage(page);
-    this.productsListPage = new ProductsListPage(page);
-    this.customersListPage = new CustomersListPage(page);
+
+  constructor(page: Page) {
+    super(page);
+    this.homePage = new HomePage(this.page);
+    this.productsListPage = new ProductsListPage(this.page);
+    this.customersListPage = new CustomersListPage(this.page);
   }
 
   async openModule(moduleName: HomeModuleButton) {

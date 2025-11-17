@@ -4,10 +4,12 @@ import { credentials } from "config/env";
 import { STATUS_CODES } from "data/statusCodes";
 import { ICredentials } from "data/types/credentials.types";
 import { validateResponse } from "utils/validation/validateResponse.utils";
+import { logStep } from "utils/report/logStep.utils";
 
 export class LoginService {
   constructor(private loginApi: LoginApi) {}
 
+  @logStep()
   async loginAsAdmin(customCredentials?: ICredentials) {
     const response = await this.loginApi.login(customCredentials ?? credentials);
     validateResponse(response, {

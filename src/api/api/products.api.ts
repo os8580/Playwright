@@ -9,6 +9,7 @@ import {
   IProductsSortedResponse,
 } from "data/types/product.types";
 import { convertRequestParams } from "utils/queryParams.utils";
+import { logStep } from "utils/report/logStep.utils";
 
 export class ProductsApi {
   constructor(private apiClient: IApiClient) {}
@@ -18,7 +19,7 @@ export class ProductsApi {
   //get all
   //get with pagination
   //delete
-
+  @logStep()
   async create(product: IProduct, token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseURL, //backend url
@@ -33,6 +34,7 @@ export class ProductsApi {
     return await this.apiClient.send<IProductResponse>(options);
   }
 
+  @logStep()
   async update(id: string, newProduct: IProduct, token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseURL,
@@ -48,6 +50,7 @@ export class ProductsApi {
     return await this.apiClient.send<IProductResponse>(options);
   }
 
+  @logStep()
   async getById(id: string, token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseURL,
@@ -62,6 +65,7 @@ export class ProductsApi {
     return await this.apiClient.send<IProductResponse>(options);
   }
 
+  @logStep()
   async getAll(token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseURL,
@@ -76,6 +80,7 @@ export class ProductsApi {
     return await this.apiClient.send<IProductsResponse>(options);
   }
 
+  @logStep()
   async getSorted(token: string, params?: Partial<IGetProductsParams>) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseURL,
@@ -90,6 +95,7 @@ export class ProductsApi {
     return await this.apiClient.send<IProductsSortedResponse>(options);
   }
 
+  @logStep()
   async delete(id: string, token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseURL,

@@ -4,10 +4,12 @@ import { createProductSchema } from "data/schemas/products/create.schema";
 import { STATUS_CODES } from "data/statusCodes";
 import { IProduct } from "data/types/product.types";
 import { validateResponse } from "utils/validation/validateResponse.utils";
+import { logStep } from "utils/report/logStep.utils";
 
 export class ProductsApiService {
   constructor(private productsApi: ProductsApi) {}
 
+  @logStep()
   async create(token: string, productData?: Partial<IProduct>) {
     const data = generateProductData(productData);
     const response = await this.productsApi.create(data, token);
@@ -20,6 +22,7 @@ export class ProductsApiService {
     return response.body.Product;
   }
 
+  @logStep()
   async delete(token: string, id: string) {
     const response = await this.productsApi.delete(id, token);
     validateResponse(response, {

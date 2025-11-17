@@ -1,4 +1,4 @@
-import { APIRequestContext, APIResponse } from "@playwright/test";
+import { APIRequestContext, APIResponse, test } from "@playwright/test";
 import { IRequestOptions, IResponse } from "data/types/core.types";
 import { BaseApiClient } from "./baseApiClient";
 import _ from "lodash";
@@ -14,10 +14,13 @@ export class RequestApi extends BaseApiClient {
     try {
       const url = options.baseURL + options.url;
       const fetchOptions = _.omit(options, ["baseURL", "url"]);
+      await this.attachRequest(options);
       this.response = await this.requestContext.fetch(url, fetchOptions);
 
       if (this.response.status() >= 500) throw new Error("Request failed with status " + this.response.status());
-      return await this.transformResponse();
+      const result = await this.transformResponse();
+      await this.attachResponse(options, result);
+      return result as IResponse<T>;
     } catch (err) {
       console.log((err as Error).message);
       throw err;
@@ -38,5 +41,33 @@ export class RequestApi extends BaseApiClient {
       body,
       headers: this.response!.headers(),
     };
+  }
+
+  private async attachRequest(options: IRequestOptions) {
+    await test.info().attach(`Request ${options.method.toUpperCase()} ${options.url}` as string, {
+      body: JSON.stringify(
+        {
+          headers: options.headers,
+          body: options.data,
+        },
+        null,
+        2,
+      ),
+      contentType: "application/json",
+    });
+  }
+
+  private async attachResponse<T extends object | null>(options: IRequestOptions, response: IResponse<T>) {
+    await test.info().attach(`Response ${response.status} ${options.method.toUpperCase()} ${options.url}` as string, {
+      body: JSON.stringify(
+        {
+          headers: response.headers,
+          body: response.body,
+        },
+        null,
+        2,
+      ),
+      contentType: "application/json",
+    });
   }
 }

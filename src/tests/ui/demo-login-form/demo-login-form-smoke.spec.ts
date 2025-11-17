@@ -79,9 +79,7 @@ test.describe.skip("[Demo App] REGISTER & LOGIN Smoke Suite", () => {
     await page.fill("#userNameOnRegister", creds.username);
     await page.fill("#passwordOnRegister", creds.password);
     await page.locator("#register").click();
-    await expect(
-      page.getByText(NOTIFICATIONS.REGISTER_SUCCESS, { exact: true })
-    ).toBeVisible();
+    await expect(page.getByText(NOTIFICATIONS.REGISTER_SUCCESS, { exact: true })).toBeVisible();
     await page.locator("#backOnRegister").click();
   }
 

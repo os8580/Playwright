@@ -131,5 +131,3 @@ test.describe("[Sales Portal] [Products]", { tag: [TAGS.PRODUCTS, TAGS.UI, TAGS.
     await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
   });
 });
-
-

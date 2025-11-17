@@ -21,10 +21,10 @@ test.describe.skip("[Demo App] Full Registration Smoke Suite", () => {
       language: "English",
       skills: ["JavaScript", "Python"],
       hobbies: ["Travelling", "Gaming"],
-      dob: {  
+      dob: {
         day: "1",
         month: "January",
-        year: "1990"
+        year: "1990",
       },
       password: "ValidPass123",
     };
@@ -44,9 +44,9 @@ test.describe.skip("[Demo App] Full Registration Smoke Suite", () => {
       await page.check(`input.hobby[value='${hobby}']`);
     }
     await page.selectOption("#skills", testData.skills);
-    await page.selectOption("#year", testData.dob.year);  
-    await page.selectOption("#month", testData.dob.month);  
-    await page.selectOption("#day", testData.dob.day);  
+    await page.selectOption("#year", testData.dob.year);
+    await page.selectOption("#month", testData.dob.month);
+    await page.selectOption("#day", testData.dob.day);
 
     // Submit registration
     await page.click("button[type='submit']");
@@ -63,7 +63,7 @@ test.describe.skip("[Demo App] Full Registration Smoke Suite", () => {
     await expect(page.locator("#skills")).toHaveText(testData.skills.join(", "));
     await expect(page.locator("#hobbies")).toHaveText(testData.hobbies.join(", "));
     await expect(page.locator("#dateOfBirth")).toHaveText(
-      `${testData.dob.day} ${testData.dob.month} ${testData.dob.year}`  
+      `${testData.dob.day} ${testData.dob.month} ${testData.dob.year}`,
     );
 
     // Verify back button is visible

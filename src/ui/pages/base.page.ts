@@ -1,8 +1,24 @@
 import { Page } from "@playwright/test";
 import { IResponse } from "data/types/core.types";
+import { SALES_PORTAL_URL } from "config/env";
 
 export abstract class BasePage {
   constructor(protected page: Page) {}
+
+  async setAuthCookie(token: string) {
+    const url = new URL(SALES_PORTAL_URL);
+    await this.page.context().addCookies([
+      {
+        name: "Authorization",
+        value: token,
+        domain: url.hostname,
+        path: "/",
+        httpOnly: false,
+        secure: false,
+        sameSite: "Lax",
+      },
+    ]);
+  }
 
   async interceptRequest<T extends unknown[]>(url: string, triggerAction: (...args: T) => Promise<void>, ...args: T) {
     const [request] = await Promise.all([

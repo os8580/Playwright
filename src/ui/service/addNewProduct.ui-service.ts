@@ -5,18 +5,21 @@ import { STATUS_CODES } from "data/statusCodes";
 import { IProduct, IProductResponse } from "data/types/product.types";
 import _ from "lodash";
 import { AddNewProductPage, ProductsListPage } from "ui/pages/products";
+import { BaseService } from "./base.service";
+import { SalesPortalRoutes } from "data/types/routes.types";
 
-export class AddNewProductUIService {
+export class AddNewProductUIService extends BaseService {
   addNewProductPage: AddNewProductPage;
   productsListPage: ProductsListPage;
 
-  constructor(private page: Page) {
-    this.addNewProductPage = new AddNewProductPage(page);
-    this.productsListPage = new ProductsListPage(page);
+  constructor(page: Page) {
+    super(page);
+    this.addNewProductPage = new AddNewProductPage(this.page);
+    this.productsListPage = new ProductsListPage(this.page);
   }
 
   async open() {
-    await this.addNewProductPage.open("products/add");
+    await this.addNewProductPage.open(SalesPortalRoutes.PRODUCTS_ADD);
     await this.addNewProductPage.waitForOpened();
   }
 

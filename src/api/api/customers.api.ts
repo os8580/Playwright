@@ -2,105 +2,80 @@ import { IApiClient } from "api/apiClients/types";
 import { apiConfig } from "config/apiConfig";
 import { IRequestOptions } from "data/types/core.types";
 import {
-  IGetProductsParams,
-  IProduct,
-  IProductResponse,
-  IProductsResponse,
-  IProductsSortedResponse,
-} from "data/types/product.types";
+  ICustomer,
+  ICustomerResponse,
+  ICustomersResponse,
+  ICustomersSortedResponse,
+  IGetCustomersParams,
+} from "data/types/customer.types";
 import { convertRequestParams } from "utils/queryParams.utils";
 
-export class ProductsApi {
+export class CustomersApi {
   constructor(private apiClient: IApiClient) {}
-  //post
-  //put
-  //get by id
-  //get all
-  //get with pagination
-  //delete
 
-  async create(product: IProduct, token: string) {
+  async create(customer: ICustomer, token: string) {
     const options: IRequestOptions = {
-      baseURL: apiConfig.baseURL, //backend url
-      url: apiConfig.endpoints.products, //endpoint address
+      baseURL: apiConfig.baseURL,
+      url: apiConfig.endpoints.customers,
       method: "post",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      data: product,
+      data: customer,
     };
-    return await this.apiClient.send<IProductResponse>(options);
-  }
-
-  async update(id: string, newProduct: IProduct, token: string) {
-    const options: IRequestOptions = {
-      baseURL: apiConfig.baseURL,
-      url: apiConfig.endpoints.productById(id),
-      method: "put",
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      data: newProduct,
-    };
-
-    return await this.apiClient.send<IProductResponse>(options);
+    return await this.apiClient.send<ICustomerResponse>(options);
   }
 
   async getById(id: string, token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseURL,
-      url: apiConfig.endpoints.productById(id),
+      url: apiConfig.endpoints.customerById(id),
       method: "get",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     };
-
-    return await this.apiClient.send<IProductResponse>(options);
+    return await this.apiClient.send<ICustomerResponse>(options);
   }
 
   async getAll(token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseURL,
-      url: apiConfig.endpoints.productsAll,
+      url: apiConfig.endpoints.customersAll,
       method: "get",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     };
-
-    return await this.apiClient.send<IProductsResponse>(options);
+    return await this.apiClient.send<ICustomersResponse>(options);
   }
 
-  async getSorted(token: string, params?: Partial<IGetProductsParams>) {
+  async getSorted(token: string, params?: Partial<IGetCustomersParams>) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseURL,
-      url: apiConfig.endpoints.products + (params ? convertRequestParams(params) : ""),
+      url: apiConfig.endpoints.customers + (params ? convertRequestParams(params) : ""),
       method: "get",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     };
-
-    return await this.apiClient.send<IProductsSortedResponse>(options);
+    return await this.apiClient.send<ICustomersSortedResponse>(options);
   }
 
   async delete(id: string, token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseURL,
-      url: apiConfig.endpoints.productById(id),
+      url: apiConfig.endpoints.customerById(id),
       method: "delete",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     };
-
     return await this.apiClient.send<null>(options);
   }
 }

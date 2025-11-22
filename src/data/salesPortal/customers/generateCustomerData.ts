@@ -2,29 +2,21 @@ import { faker } from "@faker-js/faker";
 import { COUNTRIES } from "./countries";
 import { ICustomer } from "data/types/customer.types";
 
-function generateValidName(): string {
-  const firstName = faker.person.firstName().replace(/[^A-Za-z]/g, "");
-  const lastName = faker.person.lastName().replace(/[^A-Za-z]/g, "");
-  const name = `${firstName} ${lastName}`.slice(0, 40);
-  return name;
-}
+const COUNTRY_PHONE_CODES: Record<COUNTRIES, string> = {
+  [COUNTRIES.USA]: "+1",
+  [COUNTRIES.Canada]: "+1",
+  [COUNTRIES.Belarus]: "+375",
+  [COUNTRIES.Ukraine]: "+380",
+  [COUNTRIES.Germany]: "+49",
+  [COUNTRIES.France]: "+33",
+  [COUNTRIES.GreatBritain]: "+44",
+  [COUNTRIES.Russia]: "+7",
+};
 
-function generateValidCity(): string {
-  let city = faker.location
-    .city()
-    .replace(/[^A-Za-z ]/g, "")
-    .replace(/\s{2,}/g, " ")
-    .trim();
-  return city.slice(0, 20);
-}
-
-function generateValidStreet(): string {
-  let street = faker.location
-    .street()
-    .replace(/[^A-Za-z0-9 ]/g, "")
-    .replace(/\s{2,}/g, " ")
-    .trim();
-  return street.slice(0, 40);
+function generatePhoneByCountry(country: COUNTRIES): string {
+  const code = COUNTRY_PHONE_CODES[country];
+  const digits = faker.string.numeric(10);
+  return `${code}${digits}`;
 }
 
 export function generateCustomerData(params?: Partial<ICustomer>): ICustomer {
@@ -32,13 +24,13 @@ export function generateCustomerData(params?: Partial<ICustomer>): ICustomer {
   const country = countryValues[faker.number.int({ min: 0, max: countryValues.length - 1 })] as COUNTRIES;
   return {
     email: `${faker.string.alphanumeric({ length: 8 }).toLowerCase()}+${Date.now()}@example.com`,
-    name: generateValidName(),
+    name: faker.person.fullName(),
     country,
-    city: generateValidCity(),
-    street: generateValidStreet(),
+    city: faker.location.city(),
+    street: faker.location.street(),
     house: faker.number.int({ min: 1, max: 999 }),
     flat: faker.number.int({ min: 1, max: 9999 }),
-    phone: "+1" + faker.string.numeric(10),
+    phone: generatePhoneByCountry(country),
     notes: faker.string.alphanumeric({ length: 100 }),
     ...params,
   };

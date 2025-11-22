@@ -1,9 +1,10 @@
 import { test, expect } from "fixtures/api.fixture";
 import { getProductSchema } from "data/schemas/products/get.schema";
+import { TAGS } from "data/tags";
 import { STATUS_CODES } from "data/statusCodes";
 import { validateResponse } from "utils/validation/validateResponse.utils";
 
-test.describe("[API] [Sales Portal] [Products]", () => {
+test.describe("[API] [Sales Portal] [Products]", { tag: [TAGS.PRODUCTS, TAGS.API, TAGS.REGRESSION] }, () => {
   let id = "";
   let token = "";
 

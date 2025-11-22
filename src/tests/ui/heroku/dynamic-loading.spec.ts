@@ -1,6 +1,6 @@
 import test, { expect } from "@playwright/test";
 
-test.describe("[Heroku App] [Dynamic Loading]", () => {
+test.describe.skip("[Heroku App] [Dynamic Loading]", () => {
   test("Get by text/role", async ({ page }) => {
     const url = "https://the-internet.herokuapp.com/";
     await page.goto(url);

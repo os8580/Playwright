@@ -6,19 +6,12 @@ export const test = base.extend<{
 }>({
   loginAsAdmin: async ({ page, homePage }, use) => {
     await use(async () => {
-      // const token = await loginApiService.loginAsAdmin();
-      // await page.context().addCookies([
-      //   {
-      //     name: "Authorization",
-      //     value: token,
-      //     domain: "localhost",
-      //     path: "/",
-      //     expires: -1,
-      //     httpOnly: false,
-      //     secure: false,
-      //     sameSite: "Lax",
-      //   },
-      // ]);
+      const existing = (await page.context().cookies()).find((c) => c.name === "Authorization");
+      if (existing?.value) {
+        await page.goto(SALES_PORTAL_URL);
+        await homePage.waitForOpened();
+        return;
+      }
       const emailInput = page.locator("#emailinput");
       const passwordInput = page.locator("#passwordinput");
       const loginButton = page.locator("button[type='submit']");

@@ -1,9 +1,10 @@
 import { test, expect } from "fixtures/business.fixture";
+import { TAGS } from "data/tags";
 
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
 
-test.describe("[Sales Portal] [Products] [Deletion]", () => {
+test.describe("[Sales Portal] [Products] [Deletion]", { tag: [TAGS.PRODUCTS, TAGS.UI, TAGS.REGRESSION] }, () => {
   test("Should create and then delete a product", async ({
     loginAsAdmin,
     homePage,

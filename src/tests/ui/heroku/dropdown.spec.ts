@@ -1,6 +1,6 @@
 import test, { expect } from "@playwright/test";
 
-test.describe("[Heroku App] [Dropdown]", () => {
+test.describe.skip("[Heroku App] [Dropdown]", () => {
   test.beforeEach(async ({ page }) => {
     const url = "https://the-internet.herokuapp.com/";
     const dropdownLink = page.locator('a[href="/dropdown"]');

@@ -1,9 +1,10 @@
 import { test, expect } from "fixtures";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
+import { TAGS } from "data/tags";
 import { IProductDetails } from "data/types/product.types";
 import { ProductFormPage } from "ui/pages/products/productForm.page";
 
-test.describe("[Sales Portal] [Products]", () => {
+test.describe("[Sales Portal] [Products]", { tag: [TAGS.PRODUCTS, TAGS.UI, TAGS.REGRESSION] }, () => {
   let token = "";
   let id = "";
 

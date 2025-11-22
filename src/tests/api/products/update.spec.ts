@@ -2,13 +2,14 @@ import { test, expect } from "fixtures/api.fixture";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
 import { createProductSchema } from "data/schemas/products/create.schema";
 import { STATUS_CODES } from "data/statusCodes";
+import { TAGS } from "data/tags";
 import _ from "lodash";
 import { validateResponse } from "utils/validation/validateResponse.utils";
 import { ERROR_MESSAGES } from "data/salesPortal/notifications";
 import { errorSchema } from "data/schemas/core.schema";
 import { MANUFACTURERS } from "data/salesPortal/products/manufacturers";
 
-test.describe("[API] [Sales Portal] [Products]", () => {
+test.describe("[API] [Sales Portal] [Products]", { tag: [TAGS.PRODUCTS, TAGS.API, TAGS.REGRESSION] }, () => {
   test.describe("Smoke", () => {
     const ids: string[] = [];
     let token = "";

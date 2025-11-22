@@ -1,10 +1,11 @@
 import { test, expect } from "fixtures/business.fixture";
 import { generateProductResponseData } from "data/salesPortal/products/generateProductData";
+import { TAGS } from "data/tags";
 import _ from "lodash";
 import { SALES_PORTAL_URL } from "config/env";
 import { convertToFullDateAndTime } from "utils/date.utils";
 
-test.describe("[Integration] [Sales Portal] [Products]", () => {
+test.describe("[Integration] [Sales Portal] [Products]", { tag: [TAGS.PRODUCTS, TAGS.UI, TAGS.REGRESSION] }, () => {
   test("Product Details", async ({ loginAsAdmin, productsListPage, page, mock }) => {
     const expectedProductResponse = generateProductResponseData();
     await mock.productsPage({

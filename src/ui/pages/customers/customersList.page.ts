@@ -1,6 +1,7 @@
 import { CustomersTableHeader, ICustomerInTable } from "data/types/customer.types";
 import { SalesPortalPage } from "../salesPortal.page";
 import { ConfirmationModal } from "../confirmation.modal";
+import { logStep } from "utils/report/logStep.utils";
 
 export class CustomersListPage extends SalesPortalPage {
   readonly deleteModal = new ConfirmationModal(this.page);
@@ -30,10 +31,12 @@ export class CustomersListPage extends SalesPortalPage {
 
   readonly uniqueElement = this.addNewCustomerButton;
 
+  @logStep("Click Add New Customer button")
   async clickAddNewCustomer() {
     await this.addNewCustomerButton.click();
   }
 
+  @logStep("Get customer data from table")
   async getCustomerData(email: string): Promise<ICustomerInTable> {
     const [e, name, country, createdOn] = await this.tableRowByEmail(email).locator("td").allInnerTexts();
     return {
@@ -44,6 +47,7 @@ export class CustomersListPage extends SalesPortalPage {
     };
   }
 
+  @logStep("Click Search button")
   async clickSearch() {
     await this.searchButton.click();
   }

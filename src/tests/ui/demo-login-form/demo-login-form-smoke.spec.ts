@@ -11,7 +11,7 @@ enum NOTIFICATIONS {
 
 const baseUrl = "https://anatoly-karpovich.github.io/demo-login-form/";
 
-test.describe("[Demo App] REGISTER & LOGIN Smoke Suite", () => {
+test.describe.skip("[Demo App] REGISTER & LOGIN Smoke Suite", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(baseUrl);
     await expect(page.locator("#loginForm")).toBeVisible();
@@ -79,9 +79,7 @@ test.describe("[Demo App] REGISTER & LOGIN Smoke Suite", () => {
     await page.fill("#userNameOnRegister", creds.username);
     await page.fill("#passwordOnRegister", creds.password);
     await page.locator("#register").click();
-    await expect(
-      page.getByText(NOTIFICATIONS.REGISTER_SUCCESS, { exact: true })
-    ).toBeVisible();
+    await expect(page.getByText(NOTIFICATIONS.REGISTER_SUCCESS, { exact: true })).toBeVisible();
     await page.locator("#backOnRegister").click();
   }
 

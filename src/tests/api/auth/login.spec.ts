@@ -1,13 +1,14 @@
 import { test, expect } from "@playwright/test";
 import { apiConfig } from "config/apiConfig";
 import { credentials } from "config/env";
+import { TAGS } from "data/tags";
 import { loginSchema } from "data/schemas/auth/login.schema";
 import { STATUS_CODES } from "data/statusCodes";
 import { validateResponse } from "utils/validateResponse.utils";
 
 const { baseURL, endpoints } = apiConfig;
 
-test.describe("[API] [Auth]", () => {
+test.describe("[API] [Auth]", { tag: [TAGS.API, TAGS.SMOKE] }, () => {
   test("Smoke: Login with valid credentials", async ({ request }) => {
     const loginResponse = await request.post(baseURL + endpoints.login, {
       data: credentials,

@@ -1,5 +1,6 @@
 import { test, expect } from "fixtures/business.fixture";
 import { credentials } from "config/env";
+import { TAGS } from "data/tags";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
 // import { MANUFACTURERS } from "data/salesPortal/products/manufacturers";
@@ -16,7 +17,7 @@ import { ProductsListPage } from "ui/pages/products/productsList.page";
 //   notes: "test notes",
 // };
 
-test.describe("[Sales Portal] [Products]", async () => {
+test.describe("[Sales Portal] [Products]", { tag: [TAGS.PRODUCTS, TAGS.UI, TAGS.SMOKE] }, async () => {
   let id = "";
   let token = "";
 
@@ -113,24 +114,11 @@ test.describe("[Sales Portal] [Products]", async () => {
     id = "";
   });
 
-  test("Add new product", async ({ page }) => {
+  test("Add new product", async ({ page, loginAsAdmin }) => {
     const homePage = new HomePage(page);
     const productsListPage = new ProductsListPage(page);
     const addNewProductPage = new AddNewProductPage(page);
-
-    //login page
-    const emailInput = page.locator("#emailinput");
-    const passwordInput = page.locator("#passwordinput");
-    const loginButton = page.locator("button[type='submit']");
-
-    await homePage.open();
-
-    await expect(emailInput).toBeVisible();
-    await emailInput.fill(credentials.username);
-    await passwordInput.fill(credentials.password);
-    await loginButton.click();
-
-    await homePage.waitForOpened();
+    await loginAsAdmin();
     await homePage.clickOnViewModule("Products");
     await productsListPage.waitForOpened();
     await productsListPage.clickAddNewProduct();
@@ -143,5 +131,3 @@ test.describe("[Sales Portal] [Products]", async () => {
     await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
   });
 });
-
-

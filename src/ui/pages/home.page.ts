@@ -1,6 +1,7 @@
 import { Locator } from "@playwright/test";
 import { SalesPortalPage } from "./salesPortal.page";
 import { SalesPortalRoutes } from "data/types/routes.types";
+import { logStep } from "utils/report/logStep.utils";
 
 export type HomeModuleButton = "Products" | "Customers" | "Orders";
 
@@ -16,10 +17,12 @@ export class HomePage extends SalesPortalPage {
   readonly canceledOrdersValue = this.page.locator("#canceled-orders-container .card-text");
   readonly uniqueElement = this.welcomeText;
 
+  @logStep("Open Home page")
   async open() {
     await super.open(SalesPortalRoutes.HOME);
   }
 
+  @logStep("Click on View Module button")
   async clickOnViewModule(module: HomeModuleButton) {
     const moduleButtons: Record<HomeModuleButton, Locator> = {
       Products: this.productsButton,
